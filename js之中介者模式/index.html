@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>中介者模式</title>
+  </head>
+
+  <body></body>
+  <script>
+    var players = [];
+    function Player(name, teamColor) {
+      this.name = name;
+      this.teamColor = teamColor;
+      this.partners = [];
+      this.enemies = [];
+      this.state = "live";
+    }
+    Player.prototype.win = function() {
+      // 玩家团队胜利
+      console.log("winner: " + this.name);
+    };
+    Player.prototype.lose = function() {
+      // 玩家团队失败
+      console.log("loser: " + this.name);
+    };
+    Player.prototype.die = function() {
+      var all_dead = true;
+      this.state = "dead";
+      for (let index = 0; index < this.partners.length; index++) {
+        if (this.partners[index].state != "dead") {
+          all_dead = false;
+          break;
+        }
+      }
+      if (all_dead === true) {
+        this.lose();
+        for (let index = 0; index < this.partners.length; index++) {
+          this.partners[index].lose();
+        }
+        for (let index = 0; index < this.enemies.length; index++) {
+          this.enemies[index].win();
+        }
+      }
+    };
+
+    var playerFactory = function(name, teamColor) {
+      var newPlayer = new Player(name, teamColor);
+      debugger;
+      for (let index = 0; index < players.length; index++) {
+        if (players[index].teamColor === newPlayer.teamColor) {
+          players[index].partners.push(newPlayer);
+          //添加到对方列表
+          newPlayer.partners.push(newPlayer);
+        } else {
+          players[index].enemies.push(newPlayer);
+          //添加到敌人列表
+          newPlayer.enemies.push(newPlayer);
+        }
+      }
+      players.push(newPlayer);
+      return newPlayer;
+    };
+
+    var player1 = playerFactory("皮蛋", "red"),
+      player2 = playerFactory("小乖", "red");
+    // player3 = playerFactory("宝宝", "red"),
+    // player4 = playerFactory("小强", "red");
+
+    // var player5 = playerFactory("黑妞", "blue"),
+    //   player6 = playerFactory("葱头", "blue"),
+    //   player7 = playerFactory("胖墩", "blue"),
+    //   player8 = playerFactory("海盗", "blue");
+
+    player1.die();
+    player2.die();
+    // player4.die();
+    // player3.die();
+  </script>
+</html>
