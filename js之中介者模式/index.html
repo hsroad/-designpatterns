@@ -7,58 +7,58 @@
 
   <body></body>
   <script>
-    var players = [];
-    function Player(name, teamColor) {
-      this.name = name;
-      this.teamColor = teamColor;
-      this.partners = [];
-      this.enemies = [];
-      this.state = "live";
-    }
-    Player.prototype.win = function() {
-      // 玩家团队胜利
-      console.log("winner: " + this.name);
-    };
-    Player.prototype.lose = function() {
-      // 玩家团队失败
-      console.log("loser: " + this.name);
-    };
-    Player.prototype.die = function() {
-      var all_dead = true;
-      this.state = "dead";
-      for (let index = 0; index < this.partners.length; index++) {
-        if (this.partners[index].state != "dead") {
-          all_dead = false;
-          break;
-        }
-      }
-      if (all_dead === true) {
-        this.lose();
-        for (let index = 0; index < this.partners.length; index++) {
-          this.partners[index].lose();
-        }
-        for (let index = 0; index < this.enemies.length; index++) {
-          this.enemies[index].win();
-        }
-      }
-    };
+    // var players = [];
+    // function Player(name, teamColor) {
+    //   this.name = name;
+    //   this.teamColor = teamColor;
+    //   this.partners = [];
+    //   this.enemies = [];
+    //   this.state = "live";
+    // }
+    // Player.prototype.win = function() {
+    //   // 玩家团队胜利
+    //   console.log("winner: " + this.name);
+    // };
+    // Player.prototype.lose = function() {
+    //   // 玩家团队失败
+    //   console.log("loser: " + this.name);
+    // };
+    // Player.prototype.die = function() {
+    //   var all_dead = true;
+    //   this.state = "dead";
+    //   for (let index = 0; index < this.partners.length; index++) {
+    //     if (this.partners[index].state != "dead") {
+    //       all_dead = false;
+    //       break;
+    //     }
+    //   }
+    //   if (all_dead === true) {
+    //     this.lose();
+    //     for (let index = 0; index < this.partners.length; index++) {
+    //       this.partners[index].lose();
+    //     }
+    //     for (let index = 0; index < this.enemies.length; index++) {
+    //       this.enemies[index].win();
+    //     }
+    //   }
+    // };
 
-    var playerFactory = function(name, teamColor) {
-      var newPlayer = new Player(name, teamColor);
-      for (let index = 0; index < players.length; index++) {
-        if (players[index].teamColor === newPlayer.teamColor) {
-          players[index].partners.push(newPlayer);
-          //添加到对方列表
-          newPlayer.partners.push(players[index]);
-        } else {
-          players[index].enemies.push(newPlayer);
-          //添加到敌人列表
-          newPlayer.enemies.push(players[index]);
-        }
-      }
-      players.push(newPlayer);
-      return newPlayer;
-    };
+    // var playerFactory = function(name, teamColor) {
+    //   var newPlayer = new Player(name, teamColor);
+    //   for (let index = 0; index < players.length; index++) {
+    //     if (players[index].teamColor === newPlayer.teamColor) {
+    //       players[index].partners.push(newPlayer);
+    //       //添加到对方列表
+    //       newPlayer.partners.push(players[index]);
+    //     } else {
+    //       players[index].enemies.push(newPlayer);
+    //       //添加到敌人列表
+    //       newPlayer.enemies.push(players[index]);
+    //     }
+    //   }
+    //   players.push(newPlayer);
+    //   return newPlayer;
+    // };
 
     // var player1 = playerFactory("皮蛋", "red"),
     //   player2 = playerFactory("小乖", "red"),
@@ -109,6 +109,7 @@
       operations.addPlayer = function(player) {
         var teamColor = player.teamColor;
         players[teamColor] = players[teamColor] || [];
+        players[ teamColor ].push( player ); 
       };
       operations.removePlayer = function(player) {
         var teamColor = player.teamColor,
